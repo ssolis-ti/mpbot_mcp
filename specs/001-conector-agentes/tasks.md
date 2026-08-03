@@ -19,9 +19,9 @@ verificar cada una por separado.
 
 ## Phase 1: Setup
 
-- [ ] T001 Crear el esqueleto del paquete en `mpbot_mcp/` y `tests/` según el árbol de [plan.md](plan.md), con `pyproject.toml` declarando Python 3.12+, el SDK `mcp` y la biblioteca de CLI interactiva
-- [ ] T002 [P] Configurar `pytest` en `pyproject.toml` y crear `tests/conftest.py` con el **servidor MCP simulado** compartido (handshake, `tools/list`, `tools/call`, y los 4 modos de falla 401/403/429/red) — ninguna llamada real
-- [ ] T003 [P] Crear `.gitignore` (excluyendo config local, binarios de `empaque/`, y cualquier archivo que pueda contener una key) y `README.md` inicial
+- [X] T001 Crear el esqueleto del paquete en `mpbot_mcp/` y `tests/` según el árbol de [plan.md](plan.md), con `pyproject.toml` declarando Python 3.12+, el SDK `mcp` y la biblioteca de CLI interactiva
+- [X] T002 [P] Configurar `pytest` en `pyproject.toml` y crear `tests/conftest.py` con el **servidor MCP simulado** compartido (handshake, `tools/list`, `tools/call`, y los 4 modos de falla 401/403/429/red) — ninguna llamada real
+- [X] T003 [P] Crear `.gitignore` (excluyendo config local, binarios de `empaque/`, y cualquier archivo que pueda contener una key) y `README.md` inicial
 
 ---
 
@@ -29,15 +29,15 @@ verificar cada una por separado.
 
 **⚠️ Ninguna historia puede empezar hasta terminar esta fase.**
 
-- [ ] T004 Implementar `mpbot_mcp/config.py`: lectura/escritura de `ConfiguracionConector` ([data-model.md](data-model.md) §1) en el directorio de configuración del usuario, con permisos de solo-dueño, precedencia del entorno sobre el archivo, y **función de enmascarado** de la key
-- [ ] T005 [P] Tests de `config.py` en `tests/test_config.py`: permisos del archivo, precedencia del entorno, y que el enmascarado nunca deje pasar la key completa (base de SC-004)
-- [ ] T006 Implementar `mpbot_mcp/errores.py`: traducción de los 4 modos de falla a mensaje en español + acción sugerida, según [contracts/servidor-mpbot.md](contracts/servidor-mpbot.md), incluido el caso `421` (host no reconocido) que NO debe confundirse con credenciales
-- [ ] T007 [P] Tests de `errores.py` en `tests/test_errores.py`: los 4 modos se distinguen entre sí y ninguno produce un mensaje genérico (FR-011)
-- [ ] T008 Implementar `mpbot_mcp/cliente.py`: cliente MCP contra el servidor remoto (handshake, `tools/list`, `tools/call`) usando el SDK oficial, con los errores de T006 y **una sola sesión reutilizable** (la cuota cuenta cada request, incluido el handshake)
-- [ ] T009 [P] Tests de `cliente.py` contra el servidor simulado: descubre tools sin lista propia, y propaga cada error tipado correctamente
-- [ ] T010 Implementar `mpbot_mcp/agentes/perfil.py` (estructura de `PerfilAgente`, [data-model.md](data-model.md) §2) y `mpbot_mcp/agentes/__init__.py` (registro + detección por presencia de archivo de config, research §5)
-- [ ] T011 [P] Implementar el mecanismo de respaldo (`RespaldoConfig`, [data-model.md](data-model.md) §4): copia con marca de tiempo antes de toda escritura, sin sobrescribir respaldos previos
-- [ ] T012 [P] Tests del respaldo y de la detección en `tests/test_agentes_base.py`
+- [X] T004 Implementar `mpbot_mcp/config.py`: lectura/escritura de `ConfiguracionConector` ([data-model.md](data-model.md) §1) en el directorio de configuración del usuario, con permisos de solo-dueño, precedencia del entorno sobre el archivo, y **función de enmascarado** de la key
+- [X] T005 [P] Tests de `config.py` en `tests/test_config.py`: permisos del archivo, precedencia del entorno, y que el enmascarado nunca deje pasar la key completa (base de SC-004)
+- [X] T006 Implementar `mpbot_mcp/errores.py`: traducción de los 4 modos de falla a mensaje en español + acción sugerida, según [contracts/servidor-mpbot.md](contracts/servidor-mpbot.md), incluido el caso `421` (host no reconocido) que NO debe confundirse con credenciales
+- [X] T007 [P] Tests de `errores.py` en `tests/test_errores.py`: los 4 modos se distinguen entre sí y ninguno produce un mensaje genérico (FR-011)
+- [X] T008 Implementar `mpbot_mcp/cliente.py`: cliente MCP contra el servidor remoto (handshake, `tools/list`, `tools/call`) usando el SDK oficial, con los errores de T006 y **una sola sesión reutilizable** (la cuota cuenta cada request, incluido el handshake)
+- [X] T009 [P] Tests de `cliente.py` contra el servidor simulado: descubre tools sin lista propia, y propaga cada error tipado correctamente
+- [X] T010 Implementar `mpbot_mcp/agentes/perfil.py` (estructura de `PerfilAgente`, [data-model.md](data-model.md) §2) y `mpbot_mcp/agentes/__init__.py` (registro + detección por presencia de archivo de config, research §5)
+- [X] T011 [P] Implementar el mecanismo de respaldo (`RespaldoConfig`, [data-model.md](data-model.md) §4): copia con marca de tiempo antes de toda escritura, sin sobrescribir respaldos previos
+- [X] T012 [P] Tests del respaldo y de la detección en `tests/test_agentes_base.py`
 
 **Checkpoint**: base lista — US1 y US2 pueden avanzar en paralelo.
 
@@ -54,20 +54,22 @@ tools de mpbot sin que la persona haya abierto un archivo.
 
 ### Tests (escribir primero, deben fallar)
 
-- [ ] T013 [P] [US1] Tests de escritura de config por perfil en `tests/test_agentes_claude_code.py`: preserva otras entradas, respalda, es idempotente (FR-005/006/007, SC-005)
-- [ ] T014 [P] [US1] Mismos tests para Hermes (formato YAML) en `tests/test_agentes_hermes.py`
-- [ ] T015 [P] [US1] Mismos tests para OpenClaw (JSON anidado) en `tests/test_agentes_openclaw.py`
-- [ ] T016 [P] [US1] Mismos tests para Claude Desktop en `tests/test_agentes_claude_desktop.py`
-- [ ] T017 [P] [US1] Test del flujo `instalar` en `tests/test_instalar.py`: con key inválida **no escribe ningún archivo** (FR-003), y sin agentes detectados no falla con error técnico
+- [X] T013 [P] [US1] Tests de escritura de config por perfil en `tests/test_agentes_claude_code.py`: preserva otras entradas, respalda, es idempotente (FR-005/006/007, SC-005)
+- [X] T014 [P] [US1] Mismos tests para Hermes (formato YAML) en `tests/test_agentes_hermes.py`
+- [X] T015 [P] [US1] Mismos tests para OpenClaw (JSON anidado) en `tests/test_agentes_openclaw.py`
+- [X] T016 [P] [US1] Mismos tests para Claude Desktop en `tests/test_agentes_claude_desktop.py`
+- [X] T017 [P] [US1] Test del flujo `instalar` en `tests/test_instalar.py`: con key inválida **no escribe ningún archivo** (FR-003), y sin agentes detectados no falla con error técnico
 
 ### Implementación
 
-- [ ] T018 [P] [US1] Implementar el perfil `mpbot_mcp/agentes/claude_code.py` (conexión directa con headers)
-- [ ] T019 [P] [US1] Implementar el perfil `mpbot_mcp/agentes/hermes.py` (YAML, `mcp_servers:` con `url` + `headers`)
-- [ ] T020 [P] [US1] Implementar el perfil `mpbot_mcp/agentes/openclaw.py` (JSON, `mcp.servers` con `transport: streamable-http` + `headers`)
-- [ ] T021 [P] [US1] Implementar el perfil `mpbot_mcp/agentes/claude_desktop.py` (forma de conexión a confirmar en la verificación en vivo T024)
-- [ ] T022 [US1] Implementar el comando `instalar` en `mpbot_mcp/cli.py` siguiendo el flujo de 7 pasos de [contracts/cli.md](contracts/cli.md), incluida la **advertencia explícita** cuando un agente exige la key en su propia config (Principio IV)
-- [ ] T023 [US1] Verificación de conexión de punta a punta al final del asistente, informando cuántas tools quedaron disponibles (FR-008)
+- [X] T018 [P] [US1] Implementar el perfil `mpbot_mcp/agentes/claude_code.py` (conexión directa con headers)
+- [X] T019 [P] [US1] Implementar el perfil `mpbot_mcp/agentes/hermes.py` (YAML, `mcp_servers:` con `url` + `headers`)
+- [X] T020 [P] [US1] Implementar el perfil `mpbot_mcp/agentes/openclaw.py` (JSON, `mcp.servers` con `transport: streamable-http` + `headers`)
+- [X] T021 [P] [US1] Implementar el perfil `mpbot_mcp/agentes/claude_desktop.py` (forma de conexión a confirmar en la verificación en vivo T024) — **soporte directo desactivado por defecto** (`soporta_directo=False`, solo modo stdio) hasta que T024 confirme si acepta headers
+- [X] T022 [US1] Implementar el comando `instalar` en `mpbot_mcp/cli.py` siguiendo el flujo de 7 pasos de [contracts/cli.md](contracts/cli.md), incluida la **advertencia explícita** cuando un agente exige la key en su propia config (Principio IV)
+- [X] T023 [US1] Verificación de conexión de punta a punta al final del asistente, informando cuántas tools quedaron disponibles (FR-008)
+
+**Nota de esta corrida (2026-08-02)**: T001–T023 implementados y con 71 tests verdes (`python -m pytest`, cero red, cero keys reales). T024 (verificación en vivo) y las Fases 4–7 quedan explícitamente pendientes para una corrida futura: requieren una API key real de mpbot y agentes reales instalados, ninguno de los cuales está disponible en este entorno de desarrollo. Las rutas de configuración de Hermes/OpenClaw/Claude Desktop usadas en los perfiles son las de research.md §4 (razonables, no verificadas); T024 debe confirmarlas o corregirlas antes de publicar cualquier agente como compatible (Principio II).
 
 ### Compuerta de compatibilidad (Principio II — bloqueante)
 
