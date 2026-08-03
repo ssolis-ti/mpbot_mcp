@@ -10,7 +10,7 @@ import json
 
 import pytest
 
-from mpbot_mcp.agentes import claude_desktop, detectar_agentes, escribir_config
+from mpbot_mcp.agentes import NOMBRE_SERVIDOR, claude_desktop, detectar_agentes, escribir_config
 
 
 @pytest.fixture(autouse=True)
@@ -55,7 +55,18 @@ def test_escritura_stdio_preserva_lo_ajeno_y_es_idempotente(tmp_path):
 
     assert primera == segunda
     assert segunda["mcpServers"]["otro"] == {"command": "otro-binario"}
-    assert segunda["mcpServers"]["claude-desktop"] == entrada
+    assert segunda["mcpServers"][NOMBRE_SERVIDOR] == entrada
+
+
+def test_la_entrada_se_llama_mpbot_no_claude_desktop(tmp_path):
+    """Regresión (auditoría 2026-08-03): la clave no puede ser "claude-desktop"."""
+    (tmp_path / "Claude").mkdir()
+    ruta = claude_desktop.PERFIL.ruta_archivo_config()
+    entrada = claude_desktop.PERFIL.construir_entrada_stdio("C:/ruta/mpbot-mcp.exe")
+    escribir_config(claude_desktop.PERFIL, ruta, entrada)
+    datos = json.loads(ruta.read_text(encoding="utf-8"))
+    assert "mpbot" in datos["mcpServers"]
+    assert "claude-desktop" not in datos["mcpServers"]
 
 
 def test_detectar_agentes_incluye_claude_desktop_cuando_esta_instalado(tmp_path):

@@ -11,6 +11,7 @@ import json
 import pytest
 
 from mpbot_mcp import config
+from mpbot_mcp.agentes import NOMBRE_SERVIDOR
 from mpbot_mcp.agentes.perfil import PerfilAgente
 from mpbot_mcp.cli import ejecutar_instalar
 from mpbot_mcp.errores import TipoError
@@ -98,7 +99,7 @@ async def test_key_valida_escribe_config_del_agente_detectado(tmp_path, fabrica_
     assert resultado.agentes_configurados[0].ok is True
 
     datos = json.loads(perfil.ruta_archivo_config().read_text(encoding="utf-8"))
-    assert datos["mcpServers"]["dummy"]["headers"]["Authorization"] == f"Bearer {API_KEY_VALIDA}"
+    assert datos["mcpServers"][NOMBRE_SERVIDOR]["headers"]["Authorization"] == f"Bearer {API_KEY_VALIDA}"
 
 
 async def test_confirmacion_rechazada_no_escribe_nada(tmp_path, fabrica_http_simulada, monkeypatch):

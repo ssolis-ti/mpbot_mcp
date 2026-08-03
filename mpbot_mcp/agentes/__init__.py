@@ -20,6 +20,19 @@ import yaml
 from .perfil import PerfilAgente
 
 
+NOMBRE_SERVIDOR = "mpbot"
+"""Clave con la que se registra mpbot dentro de la config de CADA agente.
+
+**Corrección real (2026-08-03, auditoría en vivo)**: la primera versión usaba
+`perfil.id` (el id del AGENTE que se está configurando: "claude-code",
+"hermes"...) como nombre del SERVIDOR MCP — confundía dos dimensiones
+distintas. Verificado en vivo: producía `mcpServers["claude-code"]` en la
+config de Claude Code, y habría producido `mcp_servers["hermes"]` dentro de
+la config del propio Hermes — un servidor llamado "hermes" adentro de Hermes,
+que no comunica en absoluto que ese servidor es mpbot.
+"""
+
+
 class ConfiguracionAgenteInvalida(Exception):
     """El archivo de configuración del agente existe pero no se pudo interpretar."""
 
@@ -121,7 +134,7 @@ def escribir_config(perfil: PerfilAgente, ruta: Path, entrada: dict) -> Resultad
 
     datos = leer_config(perfil, ruta)
     contenedor = _contenedor_servidores(datos, perfil.ruta_en_archivo)
-    contenedor[perfil.id] = entrada
+    contenedor[NOMBRE_SERVIDOR] = entrada
 
     ruta.parent.mkdir(parents=True, exist_ok=True)
     ruta.write_text(_volcar(perfil, datos), encoding="utf-8")

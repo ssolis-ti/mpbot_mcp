@@ -8,6 +8,7 @@ from pathlib import Path
 import pytest
 
 from mpbot_mcp.agentes import (
+    NOMBRE_SERVIDOR,
     ConfiguracionAgenteInvalida,
     detectar_agentes,
     escribir_config,
@@ -131,7 +132,7 @@ def test_escribir_config_preserva_otras_claves_y_otros_servidores(tmp_path):
     datos = json.loads(ruta.read_text(encoding="utf-8"))
     assert datos["otraClaveDelAgente"] == "no tocar"
     assert datos["mcp"]["servers"]["otro-servidor"] == {"url": "https://otro.example"}
-    assert datos["mcp"]["servers"]["dummy"] == entrada
+    assert datos["mcp"]["servers"][NOMBRE_SERVIDOR] == entrada
 
 
 def test_escribir_config_respalda_si_el_archivo_ya_existia(tmp_path):
@@ -172,7 +173,7 @@ def test_escribir_config_es_idempotente(tmp_path):
     segunda_pasada = json.loads(ruta.read_text(encoding="utf-8"))
 
     assert primera_pasada == segunda_pasada
-    assert list(segunda_pasada["mcp"]["servers"].keys()) == ["otro", "dummy"]
+    assert list(segunda_pasada["mcp"]["servers"].keys()) == ["otro", NOMBRE_SERVIDOR]
 
 
 def test_escribir_config_yaml_preserva_lo_ajeno(tmp_path):
@@ -189,4 +190,4 @@ def test_escribir_config_yaml_preserva_lo_ajeno(tmp_path):
     datos = yaml.safe_load(ruta.read_text(encoding="utf-8"))
     assert datos["otra_clave"] == "no tocar"
     assert datos["mcp"]["servers"]["otro"]["url"] == "https://otro.example"
-    assert datos["mcp"]["servers"]["dummy"] == entrada
+    assert datos["mcp"]["servers"][NOMBRE_SERVIDOR] == entrada

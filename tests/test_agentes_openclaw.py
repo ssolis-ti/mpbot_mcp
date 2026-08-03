@@ -7,7 +7,7 @@ import json
 
 import pytest
 
-from mpbot_mcp.agentes import detectar_agentes, escribir_config, openclaw
+from mpbot_mcp.agentes import NOMBRE_SERVIDOR, detectar_agentes, escribir_config, openclaw
 
 
 @pytest.fixture(autouse=True)
@@ -52,7 +52,17 @@ def test_escritura_anida_bajo_mcp_servers_preservando_lo_ajeno(tmp_path):
     assert primera == segunda
     assert segunda["otraConfig"] is True
     assert segunda["mcp"]["servers"]["otro"] == {"url": "https://otro.example"}
-    assert segunda["mcp"]["servers"]["openclaw"] == entrada
+    assert segunda["mcp"]["servers"][NOMBRE_SERVIDOR] == entrada
+
+
+def test_la_entrada_se_llama_mpbot_no_openclaw(tmp_path):
+    """Regresión (auditoría 2026-08-03): la clave no puede ser "openclaw"."""
+    ruta = openclaw.PERFIL.ruta_archivo_config()
+    entrada = openclaw.PERFIL.construir_entrada_directa("https://app.mpbot.cl/mcp/", "mpb_x")
+    escribir_config(openclaw.PERFIL, ruta, entrada)
+    datos = json.loads(ruta.read_text(encoding="utf-8"))
+    assert "mpbot" in datos["mcp"]["servers"]
+    assert "openclaw" not in datos["mcp"]["servers"]
 
 
 def test_detectar_agentes_incluye_openclaw_cuando_esta_instalado(tmp_path):
