@@ -54,7 +54,7 @@ mpbot-mcp · diagnóstico
   ✔ Autenticación      key válida
   ✔ Plan               Empresa · acceso al servidor MCP
   ✔ Cuota              47 de 10.000 usadas este mes
-  ✔ Tools              19 disponibles
+  ✔ Tools              21 disponibles
   ✔ Agentes            Claude Code, Hermes configurados
 
 Todo en orden.

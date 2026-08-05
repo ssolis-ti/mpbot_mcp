@@ -16,9 +16,9 @@ instalar nada**.
 
 ## Contexto y problema
 
-mpbot expone hoy 19 tools de inteligencia de mercado por MCP en
+mpbot expone hoy 21 tools de inteligencia de mercado por MCP en
 `https://app.mpbot.cl/mcp/`, protegidas por API key (`mpb_…`) y plan Empresa.
-El servidor funciona: verificado en vivo por protocolo real, 19/19 tools
+El servidor funciona: verificado en vivo por protocolo real, 21/21 tools
 respondiendo.
 
 El problema **no** es el servidor: es la última milla hasta el agente del

@@ -204,7 +204,7 @@ Fase 7 (binario y firma). Cada historia agrega valor sin romper la anterior.
 ## Notas
 
 - **Nada en este repo puede depender del número de tools del servidor** (hoy
-  19): se descubre por protocolo. Un test que lo fije está mal escrito
+  21): se descubre por protocolo. Un test que lo fije está mal escrito
   (Principio III).
 - **Ningún agente se publica como compatible sin verificación en vivo con
   fecha** (Principio II) — es la regla que nació del error real documentado

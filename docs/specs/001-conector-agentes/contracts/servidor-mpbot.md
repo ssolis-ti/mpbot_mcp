@@ -39,7 +39,7 @@ el servidor explica la causa, el conector explica el remedio.
 - Está **prohibido** mantener una lista propia, un conteo fijo o un caché de
   tools en este repo (Principio III; lección heredada de `mpbot`, donde la
   documentación escrita a mano se desactualizó tres veces).
-- Al momento de escribir este contrato el servidor expone 19 tools. **Ese
+- Al momento de escribir este contrato el servidor expone 21 tools. **Ese
   número es informativo, no un supuesto**: ningún código ni test de este repo
   puede depender de él.
 
