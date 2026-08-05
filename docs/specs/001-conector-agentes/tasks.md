@@ -88,16 +88,24 @@ diagnóstico identifica exactamente cuál es y propone la acción correcta.
 
 ### Tests (escribir primero, deben fallar)
 
-- [ ] T025 [P] [US2] Tests de `doctor` en `tests/test_doctor.py`: los 7 pasos se ejecutan **en el orden fijo** de [data-model.md](data-model.md) §3, y un paso fallido marca los siguientes como `omitido` sin abortar el reporte
-- [ ] T026 [P] [US2] Test por cada modo de falla: credencial inválida, plan insuficiente, cuota agotada y conectividad producen mensajes **distintos** (FR-011)
-- [ ] T027 [P] [US2] Test de seguridad: la key literal **no aparece** en ninguna salida de `doctor`, en ningún modo (SC-004)
-- [ ] T028 [P] [US2] Test de que `doctor` es útil **sin** configuración previa (FR-013)
+- [X] T025 [P] [US2] Tests de `doctor` en `tests/test_doctor.py`: los 7 pasos se ejecutan **en el orden fijo** de [data-model.md](data-model.md) §3, y un paso fallido marca los siguientes como `omitido` sin abortar el reporte
+- [X] T026 [P] [US2] Test por cada modo de falla: credencial inválida, plan insuficiente, cuota agotada y conectividad producen mensajes **distintos** (FR-011)
+- [X] T027 [P] [US2] Test de seguridad: la key literal **no aparece** en ninguna salida de `doctor`, en ningún modo (SC-004)
+- [X] T028 [P] [US2] Test de que `doctor` es útil **sin** configuración previa (FR-013)
 
 ### Implementación
 
-- [ ] T029 [US2] Implementar `mpbot_mcp/doctor.py` con las 7 verificaciones ordenadas, reusando `cliente.py` en **una sola sesión** (economía de cuota)
-- [ ] T030 [US2] Implementar la presentación del reporte (✔/✘/‑ con acción sugerida) y el código de salida distinto de cero ante fallo, según [contracts/cli.md](contracts/cli.md)
-- [ ] T031 [US2] Incluir en el paso "Agentes" el estado de configuración de cada agente detectado
+- [X] T029 [US2] Implementar `mpbot_mcp/doctor.py` con las 7 verificaciones ordenadas, reusando `cliente.py` en **una sola sesión** (economía de cuota)
+- [X] T030 [US2] Implementar la presentación del reporte (✔/✘/‑ con acción sugerida) y el código de salida distinto de cero ante fallo, según [contracts/cli.md](contracts/cli.md)
+- [X] T031 [US2] Incluir en el paso "Agentes" el estado de configuración de cada agente detectado
+
+**Nota de esta corrida (2026-08-05)**: T025–T031 implementados con 27 tests
+nuevos (registro dinámico + `listar-agentes` + `doctor`), suite total 104
+verdes + 1 skipped (permisos POSIX en Windows). De paso se corrigió un bug
+real de dependencias: `mcp>=1.27` resolvía a `mcp==2.0.0` (eliminó
+`mcp.server.fastmcp`) — el rango quedó fijado a `<2.0` en `pyproject.toml`
+con nota de migración futura. La verificación en vivo T024 sigue pendiente
+(requiere key real de mpbot y agentes instalados).
 
 **Checkpoint**: US1 + US2 funcionando de forma independiente.
 

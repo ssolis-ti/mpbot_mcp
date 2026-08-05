@@ -15,9 +15,10 @@ from rich.console import Console
 from rich.table import Table
 
 from . import config
-from .agentes import ConfiguracionAgenteInvalida, detectar_agentes, escribir_config
+from .agentes import ConfiguracionAgenteInvalida, REGISTRO, detectar_agentes, escribir_config
 from .agentes.perfil import PerfilAgente
 from .cliente import ClienteMpbot
+from .doctor import ejecutar_diagnostico, formatear_reporte
 from .errores import ErrorMpbot
 
 app = typer.Typer(add_completion=False, no_args_is_help=True)
@@ -180,6 +181,87 @@ def _reportar_resultado(resultado: ResultadoInstalar) -> int:
 
     _consola.print(f"\n[green]Listo.[/green] {resultado.tools_disponibles} tools de mpbot disponibles.")
     return 0
+
+
+@dataclasses.dataclass(frozen=True)
+class EstadoAgente:
+    """Resumen de un agente soportado para `listar-agentes`."""
+
+    id: str
+    nombre: str
+    formato: str
+    verificado: bool
+    fecha_verificacion: str | None
+    soporta_directo: bool
+    soporta_stdio: bool
+
+
+def resumen_agentes(registro: list[PerfilAgente] | None = None) -> list[EstadoAgente]:
+    """Estado de cada agente soportado, en orden del registro.
+
+    Lógica pura (sin E/S): la presentación la hace el comando Typer. Un
+    agente con `verificado_en=None` se reporta como no verificado
+    (Principio II: compatibilidad jamás declarada).
+    """
+    return [
+        EstadoAgente(
+            id=perfil.id,
+            nombre=perfil.nombre,
+            formato=perfil.formato,
+            verificado=perfil.esta_verificado(),
+            fecha_verificacion=(
+                perfil.verificado_en.isoformat() if perfil.verificado_en else None
+            ),
+            soporta_directo=perfil.soporta_directo,
+            soporta_stdio=perfil.soporta_stdio,
+        )
+        for perfil in (registro if registro is not None else REGISTRO)
+    ]
+
+
+@app.command()
+def listar_agentes() -> None:
+    """Muestra los agentes soportados y su estado de verificación."""
+    tabla = Table(title="Agentes soportados por mpbot-mcp")
+    tabla.add_column("Agente")
+    tabla.add_column("Id")
+    tabla.add_column("Formato")
+    tabla.add_column("Verificado")
+    tabla.add_column("Conexión")
+
+    for estado in resumen_agentes():
+        verificacion = (
+            f"[green]✔ {estado.fecha_verificacion}[/green]"
+            if estado.verificado
+            else "[yellow]no verificado[/yellow]"
+        )
+        modos = []
+        if estado.soporta_directo:
+            modos.append("directa")
+        if estado.soporta_stdio:
+            modos.append("puente")
+        tabla.add_row(
+            estado.nombre,
+            estado.id,
+            estado.formato,
+            verificacion,
+            " + ".join(modos),
+        )
+
+    _consola.print(tabla)
+    _consola.print(
+        "[dim]Los agentes marcados como «no verificado» no se declaran compatibles "
+        "hasta pasar la verificación en vivo (constitución, Principio II).[/dim]"
+    )
+
+
+@app.command()
+def doctor() -> None:
+    """Diagnostica en lenguaje llano por qué algo no funciona."""
+    reporte = asyncio.run(ejecutar_diagnostico())
+    _consola.print(formatear_reporte(reporte))
+    if not reporte.todo_ok:
+        raise typer.Exit(code=1)
 
 
 @app.command()

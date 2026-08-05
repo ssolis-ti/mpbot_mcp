@@ -1,12 +1,14 @@
 [project]
 name = "mpbot-mcp"
 version = "0.1.0"
-description = "Conector oficial de mpbot para agentes de IA (Claude Code, Claude Desktop, Hermes, OpenClaw)"
+description = "Conector oficial de mpbot para agentes de IA: detecta tus agentes, guarda tu API key y los conecta al servidor MCP de mpbot sin editar archivos a mano."
 readme = "docs/README.md"
 requires-python = ">=3.12"
 license = { file = "LICENSE" }
 dependencies = [
-    "mcp>=1.27",
+    # Fijado a 1.x: la API de `mcp` 2.0 eliminó `mcp.server.fastmcp` (usado
+    # por la suite de tests) — migrar a la API 2.x es trabajo futuro.
+    "mcp>=1.27,<2.0",
     "httpx>=0.27",
     "typer>=0.12",
     "rich>=13.7",
@@ -19,6 +21,8 @@ mpbot-mcp = "mpbot_mcp.cli:app"
 [project.optional-dependencies]
 dev = [
     "pytest>=8.0",
+    "pytest-anyio",
+    "anyio",
 ]
 
 [build-system]

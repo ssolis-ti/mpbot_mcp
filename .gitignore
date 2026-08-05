@@ -12,13 +12,12 @@ dist/
 htmlcov/
 
 # Nunca versionar configuración local ni credenciales
-.mpbot-mcp/
+.mpb-mcp/
 *.mpb_*
 mpbot-mcp-config.json
 
-# Binarios de empaque
-empaque/build/
-empaque/dist/
+# Binarios de empaque (los ejecutables se generan fuera del repo)
+empaque/
 *.exe
 *.spec
 
@@ -26,21 +25,3 @@ empaque/dist/
 Thumbs.db
 .idea/
 .vscode/
-
-# Andamiaje genérico de Spec Kit (idéntico en cualquier proyecto que lo use;
-# no es contenido propio de mpbot-mcp). Se mantiene EN DISCO localmente
-# (nunca se borra: sigue disponible para /speckit-* y no se pierde nada),
-# solo se saca del tracking de git para no llevarlo al repo público.
-# NO se ignora `.specify/memory/constitution.md` (los 7 principios reales de
-# este proyecto) ni `specs/` (spec/plan/research/tasks reales, con las
-# correcciones y hallazgos de la auditoría en vivo) — esos SÍ son contenido
-# propio y quedan versionados, según la constitución de este mismo repo.
-.claude/skills/
-.specify/templates/
-.specify/scripts/
-.specify/workflows/
-.specify/integrations/
-.specify/init-options.json
-.specify/integration.json
-.specify/feature.json
-.specify/memory/.constitution-template.json

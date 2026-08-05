@@ -143,14 +143,35 @@ def escribir_config(perfil: PerfilAgente, ruta: Path, entrada: dict) -> Resultad
 
 
 def _construir_registro() -> list[PerfilAgente]:
+    """Descubre los perfiles por convención: todo módulo de `agentes/` que
+    exponga un `PERFIL` (instancia de `PerfilAgente`) entra al registro.
+
+    Agregar un agente nuevo es agregar un módulo en este paquete con un
+    `PERFIL` — no tocar nada acá. Los módulos cuyo nombre empieza con `_`
+    (privados, como `_template.py`) se ignoran a propósito.
+    """
+    import importlib
+    import pkgutil
+
     from . import claude_code, claude_desktop, hermes, openclaw
 
-    return [
+    descubiertos: list[PerfilAgente] = [
         claude_code.PERFIL,
         claude_desktop.PERFIL,
         hermes.PERFIL,
         openclaw.PERFIL,
     ]
+
+    paquete = importlib.import_module(__name__)
+    for modulo_info in pkgutil.iter_modules(paquete.__path__):
+        if modulo_info.name.startswith("_"):
+            continue
+        modulo = importlib.import_module(f"{__name__}.{modulo_info.name}")
+        perfil = getattr(modulo, "PERFIL", None)
+        if isinstance(perfil, PerfilAgente) and perfil not in descubiertos:
+            descubiertos.append(perfil)
+
+    return descubiertos
 
 
 REGISTRO: list[PerfilAgente] = _construir_registro()
