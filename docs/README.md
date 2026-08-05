@@ -27,7 +27,7 @@ licitaciones desiertas y mucho más — con datos frescos de Compra Ágil.
 # 1. Instala
 pip install mpbot-mcp
 
-# 2. Conecta tus agentes (pega tu API key de app.mpbot.cl cuando te la pida)
+# 2. Conecta tus agentes (te pide la API key cuando la ejecutes)
 mpbot-mcp instalar
 
 # 3. Pregúntale a tu agente
@@ -38,6 +38,12 @@ mpbot-mcp instalar
 
 > ¿Algo no funciona? `mpbot-mcp doctor` te dice exactamente qué falla y cómo
 > arreglarlo, en español y sin stack traces.
+
+> **¿Cómo obtener tu API key?**
+> 1. Ve a [app.mpbot.cl/config](https://app.mpbot.cl/config) e inicia sesión con tu cuenta de Compra Ágil.
+> 2. En la sección "API Keys", genera una nueva key (comienza con `mpb_...`).
+> 3. Cópiala y pégala cuando el asistente `mpbot-mcp instalar` te la pida.
+> 4. Si la pierdes, puedes revocarla y generar otra desde la misma página.
 
 ---
 
