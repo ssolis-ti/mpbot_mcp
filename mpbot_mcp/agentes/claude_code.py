@@ -1,16 +1,17 @@
 """Perfil de Claude Code.
 
-Config de usuario en `~/.claude.json`, clave `mcpServers` (research §4).
-Admite conexión directa por HTTP con headers propios, y también puede lanzar
-un programa local (stdio).
+Config de usuario en `~/.claude.json`, clave `mcpServers`. Admite conexión
+directa por HTTP con headers propios, y también puede lanzar un programa
+local (stdio).
 
-**Sin verificar en vivo todavía** (`verificado_en=None`): no se presenta como
-compatible hasta completar el protocolo de research §6 (T024, fuera de
-alcance de esta corrida).
+**Verificado en vivo (2026-08-02)**: configurado con `mpbot-mcp instalar`
+contra la instalación real de Claude Code, tools listadas desde el agente
+real y ejecutadas con datos reales de app.mpbot.cl.
 """
 
 from __future__ import annotations
 
+from datetime import date
 from pathlib import Path
 
 from .perfil import PerfilAgente
@@ -48,5 +49,5 @@ PERFIL = PerfilAgente(
     soporta_stdio=True,
     construir_entrada_directa=_entrada_directa,
     construir_entrada_stdio=_entrada_stdio,
-    verificado_en=None,
+    verificado_en=date(2026, 8, 2),
 )

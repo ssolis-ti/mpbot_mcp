@@ -20,16 +20,17 @@ Se respeta `HERMES_HOME` si el usuario la tiene fijada (mismo criterio que el
 propio Hermes), con fallback a `%LOCALAPPDATA%\\hermes` en Windows y
 `~/.hermes` en el resto.
 
-**Sin verificar en vivo todavía** (`verificado_en=None`): esta corrección
-arregla la ruta según el código fuente de Hermes, pero el protocolo completo
-de verificación (research §6: configurar → listar tools → ejecutar una tool)
-sigue pendiente (T024) antes de declararlo compatible.
+**Verificado en vivo (2026-08-02)**, ya con la ruta corregida: configurado
+con `mpbot-mcp instalar` contra la instalación real de Hermes, tools
+listadas desde el agente real y ejecutadas con datos reales de
+app.mpbot.cl.
 """
 
 from __future__ import annotations
 
 import os
 import platform
+from datetime import date
 from pathlib import Path
 
 from .perfil import PerfilAgente
@@ -75,5 +76,5 @@ PERFIL = PerfilAgente(
     soporta_stdio=True,
     construir_entrada_directa=_entrada_directa,
     construir_entrada_stdio=_entrada_stdio,
-    verificado_en=None,
+    verificado_en=date(2026, 8, 2),
 )
