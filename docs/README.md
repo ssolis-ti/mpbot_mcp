@@ -2,7 +2,7 @@
 
 **Un comando. Tus agentes. Los datos de Compra Ágil en tu chat.**
 
-[![tests](https://img.shields.io/badge/tests-104%20passed-brightgreen)](https://github.com/ssolis-ti/mpbot_mcp/actions)
+[![tests](https://img.shields.io/badge/tests-112%20passed-brightgreen)](https://github.com/ssolis-ti/mpbot_mcp/actions)
 [![python](https://img.shields.io/badge/python-3.12%2B-blue)](https://www.python.org/)
 [![licencia](https://img.shields.io/badge/licencia-MIT-green)](LICENSE)
 
@@ -15,17 +15,19 @@ sin código, sin abrir un archivo de configuración.
 $ mpbot-mcp instalar
 ```
 
-Eso es todo. Tu agente ahora tiene **21 tools** de inteligencia de mercado:
-buscar rubros, analizar competencia, descubrir nichos rentables, detectar
-licitaciones desiertas y mucho más — con datos frescos de Compra Ágil.
+Eso es todo. Tu agente ahora tiene acceso a **todas las tools** de
+inteligencia de mercado que el servidor de mpbot declare en ese momento
+(hoy son 25) — buscar rubros, analizar competencia, descubrir nichos
+rentables, detectar licitaciones desiertas y mucho más, con datos frescos de
+Compra Ágil.
 
 ---
 
 ## En 30 segundos
 
 ```bash
-# 1. Instala
-pip install mpbot-mcp
+# 1. Instala (todavía no está publicado en PyPI: se instala desde el repo)
+pip install git+https://github.com/ssolis-ti/mpbot_mcp.git
 
 # 2. Conecta tus agentes (te pide la API key cuando la ejecutes)
 mpbot-mcp instalar
@@ -47,31 +49,36 @@ mpbot-mcp instalar
 
 ---
 
-## Los 3 comandos (y el que viene)
+## Los 4 comandos
 
 | Comando | Qué hace |
 |---|---|
 | `mpbot-mcp instalar` | Detecta tus agentes, guarda tu key, los conecta. Listo. |
 | `mpbot-mcp doctor` | Diagnostica en español: key, conexión, autenticación, plan, cuota, tools, agentes configurados. |
 | `mpbot-mcp listar-agentes` | Muestra los agentes soportados y su estado de verificación. |
-| `mpbot-mcp servir` | Modo puente para agentes sin HTTP (próximamente). |
+| `mpbot-mcp servir` | Modo puente por stdio para agentes sin soporte HTTP (lo lanza el agente, no vos). |
 
 ---
 
-## Las 21 tools que tu agente va a tener
+## Las tools que tu agente va a tener
 
 ```
-estado               ·  buscar_rubro        ·  buscar_producto
-mercado_rubro        ·  oportunidades       ·  curva_precio
-demanda_esperada     ·  perfil_organismo     ·  perfil_proveedor
-ranking_nichos       ·  perfil_competencia   ·  competidores_rubro
-cohorte_entrantes    ·  curva_perseverancia  ·  primera_apuesta
-backtest_rubro       ·  resumen_mensual      ·  listar_regiones
-tasa_desercion       ·  ranking_desercion    ·  licitaciones_desiertas
+estado                ·  buscar_rubro          ·  buscar_producto
+mercado_rubro         ·  oportunidades         ·  oportunidades_pyme
+curva_precio          ·  demanda_esperada      ·  perfil_organismo
+perfil_proveedor      ·  ranking_nichos        ·  perfil_competencia
+competidores_rubro    ·  cohorte_entrantes     ·  curva_perseverancia
+primera_apuesta       ·  backtest_rubro        ·  resumen_mensual
+listar_regiones       ·  tasa_desercion        ·  ranking_desercion
+licitaciones_desiertas·  nichos_adyacentes     ·  ranking_crecimiento
+ventaja_local
 ```
 
 Todas funcionan con datos reales de **Compra Ágil — Mercado Público Chile**.
-Tu agente las descubre solo: no hay que configurar nada.
+Tu agente las descubre solo por protocolo: no hay que configurar nada, y
+esta lista es solo referencial (verificada en vivo 2026-09-08, hoy son 25) —
+**el conector nunca depende de un catálogo fijo**, así que si mpbot agrega,
+cambia o retira una tool, la ves reflejada sin actualizar nada acá.
 
 ---
 

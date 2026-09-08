@@ -12,9 +12,10 @@ dist/
 htmlcov/
 
 # Nunca versionar configuración local ni credenciales
-.mpb-mcp/
+.mpbot-mcp/
 *.mpb_*
-mpbot-mcp-config.json
+config.json
+*.bak
 
 # Binarios de empaque (los ejecutables se generan fuera del repo)
 empaque/
