@@ -1,5 +1,5 @@
-"""Punto de entrada de línea de comandos: `instalar` (US1). `doctor` y
-`servir` se agregan en fases posteriores (ver tasks.md, Fases 4 y 5).
+"""Punto de entrada de línea de comandos: `instalar` (US1), `doctor` (US2),
+`servir` (US3, modo puente) y `listar-agentes`.
 """
 
 from __future__ import annotations
@@ -21,6 +21,7 @@ from .agentes.perfil import PerfilAgente
 from .cliente import ClienteMpbot
 from .doctor import ejecutar_diagnostico, formatear_reporte
 from .errores import ErrorMpbot
+from .puente import ejecutar_puente
 
 # En Windows, la consola suele venir en una codepage heredada (cp1252) que no
 # sabe representar ✔/✘/…: sin esto, `doctor`/`instalar` revientan con
@@ -42,8 +43,8 @@ def _raiz() -> None:
     """mpbot-mcp: conector de mpbot para agentes de IA.
 
     Un `@app.callback()` vacío es lo que le dice a Typer que exija el nombre
-    del subcomando (`instalar`, y más adelante `doctor`/`servir`) en vez de
-    colapsar a un único comando implícito cuando solo hay uno registrado.
+    del subcomando en vez de colapsar a un único comando implícito cuando
+    solo hay uno registrado.
     """
 
 ConfirmarFn = Callable[[list[tuple[PerfilAgente, Path]]], bool]
@@ -313,6 +314,44 @@ def instalar(
     )
 
     codigo_salida = _reportar_resultado(resultado)
+    raise typer.Exit(code=codigo_salida)
+
+
+async def _servir_async() -> int:
+    # Nunca a stdout: ahí va el protocolo MCP. Cualquier diagnóstico de
+    # arranque (sin key, error de conexión) va a stderr — es lo único que el
+    # agente que lanzó este proceso puede llegar a mostrarle a la persona.
+    consola_error = Console(stderr=True)
+
+    cfg = config.cargar()
+    if cfg is None or not cfg.api_key:
+        consola_error.print(
+            "[red]✘[/red] No hay API key configurada. "
+            "Ejecuta `mpbot-mcp instalar` primero, o define MPBOT_API_KEY."
+        )
+        return 1
+
+    try:
+        async with ClienteMpbot(cfg.api_key, cfg.url_servidor) as cliente:
+            await ejecutar_puente(cliente)
+    except ErrorMpbot as error:
+        consola_error.print(f"[red]✘[/red] {error.mensaje}")
+        if error.accion:
+            consola_error.print(f"  → {error.accion}")
+        return 1
+
+    return 0
+
+
+@app.command()
+def servir() -> None:
+    """Modo puente (US3): lo lanza el agente, no la persona.
+
+    Reexpone por stdio las tools remotas de mpbot, tomando la credencial de
+    tu configuración guardada (`mpbot-mcp instalar`) o de MPBOT_API_KEY —
+    nunca de la config del agente que lo lanza (FR-015).
+    """
+    codigo_salida = asyncio.run(_servir_async())
     raise typer.Exit(code=codigo_salida)
 
 
