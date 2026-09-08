@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import asyncio
 import dataclasses
+import platform
 import sys
 from collections.abc import Callable
 from pathlib import Path
@@ -20,6 +21,17 @@ from .agentes.perfil import PerfilAgente
 from .cliente import ClienteMpbot
 from .doctor import ejecutar_diagnostico, formatear_reporte
 from .errores import ErrorMpbot
+
+# En Windows, la consola suele venir en una codepage heredada (cp1252) que no
+# sabe representar ✔/✘/…: sin esto, `doctor`/`instalar` revientan con
+# UnicodeEncodeError apenas imprimen el primer símbolo (bug real,
+# verificado en vivo 2026-09-08). Reconfigurar a UTF-8 con reemplazo evita
+# el crash sin depender de que quien use el conector sepa fijar
+# PYTHONIOENCODING a mano — exactamente lo que el Principio I prohíbe pedirle.
+if sys.platform == "win32":
+    for _flujo in (sys.stdout, sys.stderr):
+        if hasattr(_flujo, "reconfigure"):
+            _flujo.reconfigure(encoding="utf-8", errors="replace")
 
 app = typer.Typer(add_completion=False, no_args_is_help=True)
 _consola = Console()
@@ -58,8 +70,20 @@ class ResultadoInstalar:
 
 
 def ruta_ejecutable_actual() -> str:
-    """Ruta absoluta a este mismo programa, para configurar el modo puente (US3)."""
-    return str(Path(sys.argv[0]).resolve())
+    """Ruta absoluta a este mismo programa, para configurar el modo puente (US3).
+
+    Bug real, verificado en vivo (2026-09-08): el `.exe` generado por pip en
+    Windows para el console-script deja `sys.argv[0]` **sin** la extensión
+    `.exe`. Esa ruta escrita tal cual en la config de un agente apunta a un
+    archivo que no existe — el agente no puede lanzar el puente. Si la ruta
+    resuelta no existe pero su versión con `.exe` sí, se usa esa.
+    """
+    ruta = Path(sys.argv[0]).resolve()
+    if platform.system() == "Windows" and not ruta.exists():
+        con_extension = ruta.with_suffix(".exe")
+        if con_extension.exists():
+            return str(con_extension)
+    return str(ruta)
 
 
 async def ejecutar_instalar(
