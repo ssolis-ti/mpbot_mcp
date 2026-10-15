@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="520" viewBox="0 0 820 520" font-family="-apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <rect width="820" height="520" rx="14" fill="#1e1f24"/>
+  <rect width="820" height="44" rx="14" fill="#2a2b31"/>
+  <rect y="30" width="820" height="14" fill="#2a2b31"/>
+  <circle cx="24" cy="22" r="6" fill="#ff5f57"/>
+  <circle cx="44" cy="22" r="6" fill="#febc2e"/>
+  <circle cx="64" cy="22" r="6" fill="#28c840"/>
+  <text x="410" y="27" text-anchor="middle" fill="#a0a3ab" font-size="13">Tu agente de IA + mpbot</text>
+
+  <!-- Pregunta -->
+  <rect x="300" y="68" width="496" height="44" rx="12" fill="#3b5bdb"/>
+  <text x="316" y="95" fill="#ffffff" font-size="15">¿En qué rubro me conviene entrar en la Araucanía?</text>
+
+  <!-- Tool -->
+  <text x="24" y="146" fill="#8b8f98" font-size="12.5">⚙ usó la herramienta  ranking_nichos · región: Araucanía</text>
+
+  <!-- Respuesta -->
+  <rect x="24" y="160" width="772" height="336" rx="12" fill="#2a2b31"/>
+  <text x="44" y="190" fill="#e6e7ea" font-size="15">Estos rubros tienen mucha demanda y poca competencia en la región</text>
+  <text x="44" y="210" fill="#e6e7ea" font-size="15">(últimos 12 meses):</text>
+
+  <g font-size="13" fill="#a0a3ab">
+    <text x="44" y="246">Rubro</text>
+    <text x="400" y="246" text-anchor="end">Cotizaciones</text>
+    <text x="560" y="246" text-anchor="end">Oferentes promedio</text>
+    <text x="772" y="246" text-anchor="end">Con poca competencia</text>
+  </g>
+  <line x1="44" y1="256" x2="772" y2="256" stroke="#3a3b42"/>
+
+  <g font-size="14" fill="#e6e7ea">
+    <text x="44" y="282">Arriendo de vehículos</text>
+    <text x="400" y="282" text-anchor="end">459</text>
+    <text x="560" y="282" text-anchor="end">2,2</text>
+    <text x="772" y="282" text-anchor="end" fill="#69db7c">70,8 %</text>
+
+    <text x="44" y="312">Reactivos o soluciones químicos</text>
+    <text x="400" y="312" text-anchor="end">510</text>
+    <text x="560" y="312" text-anchor="end">2,3</text>
+    <text x="772" y="312" text-anchor="end" fill="#69db7c">68,4 %</text>
+
+    <text x="44" y="342">Producción de eventos</text>
+    <text x="400" y="342" text-anchor="end">857</text>
+    <text x="560" y="342" text-anchor="end">2,5</text>
+    <text x="772" y="342" text-anchor="end" fill="#69db7c">64,2 %</text>
+
+    <text x="44" y="372">Servicios de catering</text>
+    <text x="400" y="372" text-anchor="end">1.116</text>
+    <text x="560" y="372" text-anchor="end">4,3</text>
+    <text x="772" y="372" text-anchor="end">38,9 %</text>
+
+    <text x="44" y="402">Farmacias</text>
+    <text x="400" y="402" text-anchor="end">1.092</text>
+    <text x="560" y="402" text-anchor="end">4,7</text>
+    <text x="772" y="402" text-anchor="end">32,7 %</text>
+  </g>
+
+  <text x="44" y="442" fill="#e6e7ea" font-size="14.5">Arriendo de vehículos destaca: 7 de cada 10 compras tuvieron poca competencia.</text>
+  <text x="44" y="466" fill="#e6e7ea" font-size="14.5">¿Quieres que revise qué organismos compran más ese rubro?</text>
+</svg>
