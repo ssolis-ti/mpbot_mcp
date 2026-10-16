@@ -185,14 +185,14 @@ Ejecuta:
 mpbot-mcp doctor
 ```
 
-Revisa tu key, la conexión, tu plan, tu cuota y tus asistentes, y te dice en
+Revisa tu key, la conexión, tu acceso, tus créditos y tus asistentes, y te dice en
 simple qué hacer. Los casos más comunes:
 
 | Mensaje | Qué hacer |
 |---|---|
 | La API key no sirve o fue revocada | Crea una nueva en [app.mpbot.cl/config](https://app.mpbot.cl/config). |
-| Tu plan no incluye acceso al servidor MCP | Revisa tu plan en [app.mpbot.cl/config](https://app.mpbot.cl/config). |
-| Se agotó la cuota mensual | Se renueva al inicio del próximo ciclo. |
+| Tu cuenta no tiene acceso al servidor MCP | Solicita un Asiento Entry en [app.mpbot.cl/asiento](https://app.mpbot.cl/asiento). |
+| Te quedaste sin créditos | Pide más en [app.mpbot.cl/creditos](https://app.mpbot.cl/creditos). |
 | No se pudo contactar al servidor | Revisa tu conexión a internet o tu proxy. |
 
 ---

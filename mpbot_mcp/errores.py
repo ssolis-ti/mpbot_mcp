@@ -103,14 +103,14 @@ def _traducir_status(codigo: int, detalle: str | None) -> ErrorMpbot:
     if codigo == 403:
         return ErrorMpbot(
             TipoError.PLAN_INSUFICIENTE,
-            f"Tu plan no incluye acceso al servidor MCP de mpbot{sufijo}.",
-            "El servidor MCP está disponible desde el plan Empresa; revisa tu plan en app.mpbot.cl/config.",
+            f"Tu cuenta no tiene acceso al servidor MCP de mpbot{sufijo}.",
+            "El servidor MCP viene con el Asiento Entry; solicítalo en app.mpbot.cl/asiento.",
         )
     if codigo == 429:
         return ErrorMpbot(
             TipoError.CUOTA_AGOTADA,
-            f"Se agotó la cuota mensual de tu API key{sufijo}.",
-            "La cuota se renueva al inicio del próximo ciclo; revisa el detalle en app.mpbot.cl/config.",
+            f"Te quedaste sin créditos{sufijo}.",
+            "Pide más en app.mpbot.cl/creditos; tu saldo está en app.mpbot.cl/mi-asiento.",
         )
     if codigo == 421:
         return ErrorMpbot(

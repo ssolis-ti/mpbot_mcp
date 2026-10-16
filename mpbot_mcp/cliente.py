@@ -1,8 +1,10 @@
 """Cliente MCP contra el servidor remoto de mpbot.
 
-Una sola sesión reutilizable por instancia: cada request cuenta para la
-cuota, incluido el handshake, así que `doctor` e `instalar` abren un único
-`ClienteMpbot` y lo reusan para todas sus verificaciones.
+Una sola sesión reutilizable por instancia: `doctor` e `instalar` abren un
+único `ClienteMpbot` y lo reusan para todas sus verificaciones. (Desde la
+feature 045 del servidor, conectarse no gasta créditos: solo las consultas
+de datos, es decir los `tools/call` que no son `estado`, `listar_regiones` ni
+`estado_cuenta`.)
 
 No interpreta el contenido de las tools: solo hace el handshake, las
 descubre por protocolo y transporta las llamadas.

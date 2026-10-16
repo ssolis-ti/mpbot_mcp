@@ -5,7 +5,7 @@
 Un paso que falla **no aborta** el reporte: los siguientes quedan
 `omitido` con su motivo, para que la persona vea el cuadro completo de una
 sola vez. Las verificaciones de red usan **una sola sesión** con el
-servidor (la cuota cuenta cada request, incluido el handshake).
+servidor. Conectarse no gasta créditos; solo las consultas de datos.
 
 La API key **nunca** se imprime completa en ningún detalle:
 toda mención pasa por `config.enmascarar`.

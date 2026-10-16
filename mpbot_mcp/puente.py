@@ -10,7 +10,7 @@ Reexpone exactamente lo que el servidor remoto declara en cada momento: sin
 lista propia, filtrado ni transformación.
 
 Un único `ClienteMpbot` se abre al arrancar y se reusa durante toda la vida
-del proceso: cada conexión cuenta para la cuota.
+del proceso (conectarse no gasta créditos; solo las consultas de datos).
 
 Los errores dentro de los handlers no se capturan a mano: el SDK de MCP ya
 los convierte en una respuesta de error en vez de tumbar el proceso, y
